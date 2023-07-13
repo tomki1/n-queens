@@ -50,6 +50,12 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
+  var findSpot = function(startingPoint) {
+
+
+
+
+  };
   // var solution = [];
   var piecesUsed = 0;
   var matrix = [];
@@ -65,31 +71,59 @@ window.findNQueensSolution = function(n) {
   // solution is a board
   var solution = new Board(matrix);
   // var row = this.rows();
+  // board is a mirror of itself, if we tried half the solutions and it doesn't work, nothing in other half will work either, so try until n/2
+var spotsTried = 0;
+var end = 0;
+var start = 0;
+var foundOneSolution = false;
+// i think we need to create another loop to look for a new solution here, reset matrix back to all zeroes, piecesUsed back to 0
+  loop1: while (spotsTried <= (n/2) && foundOneSolution === false){
+    // we need to increment our start point here, how do we do that?
+    for (var i = 0; i < n; i++) {
+      // while we are not yet at our new start point, don't try setting potential Queen down
 
-  for (var i = 0; i < n; i++) {
-    for (var j = 0; j < n; j++) {
-      // potentially set square to 1
-      solution.attributes[i][j] = 1;
-      // if it has conflict, set it back to zero
-      if (solution.hasAnyRowConflicts()) {
-        solution.attributes[i][j] = 0;
-      } else if (solution.hasAnyColConflicts()) {
-        solution.attributes[i][j] = 0;
-      } else if (solution.hasAnyMajorDiagonalConflicts()) {
-        solution.attributes[i][j] = 0;
-      } else if (solution.hasAnyMinorDiagonalConflicts()){
-        solution.attributes[i][j] = 0;
-      } else {
-        piecesUsed++;
-      }
+      for (var j = 0; j < n; j++) {
+        while (start < end) {
+          start++;
+          j = start;
+          continue;
+        }
+        // potentially set square to 1
+        solution.attributes[i][j] = 1;
+        // if it has conflict, set it back to zero
+        if (solution.hasAnyRowConflicts()) {
+          solution.attributes[i][j] = 0;
+        } else if (solution.hasAnyColConflicts()) {
+          solution.attributes[i][j] = 0;
+        } else if (solution.hasAnyMajorDiagonalConflicts()) {
+          solution.attributes[i][j] = 0;
+        } else if (solution.hasAnyMinorDiagonalConflicts()){
+          solution.attributes[i][j] = 0;
+        } else {
+          piecesUsed++;
+        }
 
-      // if we used n pieces, return this matrix
-      if (piecesUsed === n) {
-        return matrix;
+        // if we used n pieces, return this matrix
+        if (piecesUsed === n) {
+          foundOneSolution = true;
+          break loop1;
+        }
       }
     }
-  }
+    // reset matrix back to zero
 
+    for (var i = 0; i < n; i++) {
+      for (var j = 0; j < n; j++) {
+        // potentially set square to 1
+        solution.attributes[i][j] = 0;
+      }
+    }
+    // reset spots tried and piecesUsed
+    piecesUsed = 0;
+    start = 0;
+    end++;
+    spotsTried++;
+  }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(matrix));
   return matrix;
