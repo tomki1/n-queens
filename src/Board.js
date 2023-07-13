@@ -166,10 +166,10 @@
         }
         checkCol++;
       }
-      return false; // fixme
+      return false;
     },
 
-    //test cide
+
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
@@ -185,9 +185,8 @@
         searchRows++;
       }
 
-      return false; // fixme
+      return false;
     },
-
 
 
 
@@ -211,62 +210,31 @@
         if (piecesOnDiagonal > 1) {
           return true;
         }
-
       }
-      return false; // fixme
-
-      // var piecesOnDiagonal = 0;
-      // var checkCol = minorDiagonalColumnIndexAtFirstRow;
-      // // check one square per each row starting with row below itself
-      // for (var i = currentRow; i < this.attributes.n; i++) {
-      //   if (this.attributes[i][checkCol] === undefined) {
-      //     return false;
-      //   }
-      //   if (this.attributes[i][checkCol] === 1) {
-      //     piecesOnDiagonal++;
-      //   }
-      //   checkCol--;
-      //   if (piecesOnDiagonal > 1) {
-      //     return true;
-      //   }
-      // }
-      // return false;
+      return false;
     },
+
+
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-    //   var searchRows = 0;
-    //   // increment search rows
-    //   while (searchRows < this.rows().length) {
-    //     for (var i = 0; i < this.rows().length; i++) {
-    //       if (this.hasMinorDiagonalConflictAt(i, searchRows)) {
-    //         return true;
-    //       }
-    //     }
-
-    //     searchRows++;
-    //   }
-
-    //   return false; // fixme
-    // }
-    var rowsToSearch = 0;
-    while (rowsToSearch < this.attributes.n) {
-          // go through equal square in first row to see if there is a major conflict
-          // i newMatrix..is columns of first row
-      for (var i = 0; i < this.attributes.n; i++) {
-        if (this.hasMinorDiagonalConflictAt(i, rowsToSearch) === true) {
-          return true;
+      var searchRows = 0;
+      // increment search rows
+      while (searchRows < this.rows().length) {
+        for (var i = 0; i < this.rows().length; i++) {
+          if (this.hasMinorDiagonalConflictAt(i, searchRows)) {
+            return true;
+          }
         }
-      }
-      rowsToSearch++;
-    }
-    return false;
-  }
 
+        searchRows++;
+      }
+
+      return false; // fixme
+    }
+  });
     /*--------------------  End of Helper Functions  ---------------------*/
 
-
-  });
 
   var makeEmptyMatrix = function(n) {
     return _(_.range(n)).map(function() {
